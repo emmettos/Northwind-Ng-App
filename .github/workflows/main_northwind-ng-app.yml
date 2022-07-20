@@ -57,6 +57,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'northwind-ng-app'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2C1AE7A3524415C84CBC5E4DFA7CAEF }}
-          package: .
+          package: ./dist/northwind-ng-app
