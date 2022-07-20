@@ -19,7 +19,7 @@ import { MSAL_CONFIG, protectedResources } from './auth-config';
   declarations: [
     AppComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
