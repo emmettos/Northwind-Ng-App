@@ -1,16 +1,41 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { MsalModule } from '@azure/msal-angular';
+import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
+
+import { MaterialModule } from './material.module';
+import { MSAL_CONFIG, protectedResources } from './auth-config';
+
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MaterialModule,
+        MsalModule.forRoot(
+          new PublicClientApplication(MSAL_CONFIG),
+          {
+            interactionType: InteractionType.Redirect,
+            authRequest: {
+              scopes: protectedResources.todoListApi.scopes
+            }
+          },
+          {
+            interactionType: InteractionType.Redirect,
+            protectedResourceMap: new Map([
+              [
+                protectedResources.todoListApi.endpoint, 
+                protectedResources.todoListApi.scopes
+              ]
+            ])
+          })
       ],
       declarations: [
         AppComponent
-      ],
+      ]
     }).compileComponents();
   });
 
@@ -20,16 +45,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'Northwind-Ng-App'`, () => {
+  it(`should have as title 'msal-angular-tutorial'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('Northwind-Ng-App');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('Northwind-Ng-App app is running!');
+    expect(app.title).toEqual('msal-angular-tutorial');
   });
 });

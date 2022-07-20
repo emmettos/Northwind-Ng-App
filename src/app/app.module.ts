@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,7 +11,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { MsalGuard, MsalInterceptor, MsalModule, MsalRedirectComponent } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
+import { MaterialModule } from './material.module';
 import { MSAL_CONFIG, protectedResources } from './auth-config';
+
 
 @NgModule({
   declarations: [
@@ -25,11 +23,9 @@ import { MSAL_CONFIG, protectedResources } from './auth-config';
   ],
   imports: [
     BrowserModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatTableModule,
     AppRoutingModule,
     HttpClientModule,
+    MaterialModule,
     MsalModule.forRoot(
       new PublicClientApplication(MSAL_CONFIG),
       {

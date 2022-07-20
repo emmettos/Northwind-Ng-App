@@ -1,5 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MsalModule } from '@azure/msal-angular';
+import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
+
+import { MSAL_CONFIG, protectedResources } from '../auth-config';
+
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
@@ -8,7 +13,28 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      imports: [
+        MsalModule.forRoot(
+          new PublicClientApplication(MSAL_CONFIG),
+          {
+            interactionType: InteractionType.Redirect,
+            authRequest: {
+              scopes: protectedResources.todoListApi.scopes
+            }
+          },
+          {
+            interactionType: InteractionType.Redirect,
+            protectedResourceMap: new Map([
+              [
+                protectedResources.todoListApi.endpoint, 
+                protectedResources.todoListApi.scopes
+              ]
+            ])
+          })
+      ],
+      declarations: [ 
+        HomeComponent 
+      ],
     })
     .compileComponents();
 
