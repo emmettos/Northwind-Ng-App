@@ -6,6 +6,9 @@ import { InteractionStatus, RedirectRequest } from '@azure/msal-browser';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
+import { environment } from '../environments/environment';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -41,7 +44,7 @@ export class AppComponent implements OnInit{
 
   logout() { 
     this.authService.logoutRedirect({
-      postLogoutRedirectUri: 'http://localhost:4200'
+      postLogoutRedirectUri: environment.authConfig.redirectURL
     });
   }
 

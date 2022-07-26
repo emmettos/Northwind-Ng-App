@@ -1,6 +1,7 @@
+import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
+
 import { environment } from '../environments/environment';
 
-import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
  
