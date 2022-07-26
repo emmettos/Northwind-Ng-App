@@ -27,14 +27,11 @@ jobs:
           npm run build --if-present
           npm run test-headless --if-present
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: release.zip
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,13 +46,11 @@ jobs:
         with:
           name: node-app
       
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'northwind-ng-app'
+          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2C1AE7A3524415C84CBC5E4DFA7CAEF }}
-          package: ./dist/northwind-ng-app
+          package: .
