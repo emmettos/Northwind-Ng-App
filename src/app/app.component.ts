@@ -15,13 +15,12 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  title = 'msal-angular-tutorial';
+  title = 'Northwind Traders Ltd.';
   loginDisplay = false;
   
   private readonly _destroying$ = new Subject<void>();
 
-  constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration, private broadcastService: MsalBroadcastService, 
-      private authService: MsalService) { }
+  constructor(private broadcastService: MsalBroadcastService, private authService: MsalService) { }
 
   ngOnInit() {
     this.broadcastService.inProgress$
@@ -35,11 +34,7 @@ export class AppComponent implements OnInit{
   }
 
   login() {
-    if (this.msalGuardConfig.authRequest){
-      this.authService.loginRedirect({...this.msalGuardConfig.authRequest} as RedirectRequest);
-    } else {
-      this.authService.loginRedirect();
-    }
+    this.authService.loginRedirect();
   }
 
   logout() { 

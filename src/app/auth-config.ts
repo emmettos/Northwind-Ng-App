@@ -38,7 +38,7 @@ export const MSAL_CONFIG: Configuration = {
         console.log(message);
       },
       logLevel: LogLevel.Verbose,
-      piiLoggingEnabled: false
+      piiLoggingEnabled: true
     }
   }
 }

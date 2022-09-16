@@ -3,12 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 
-import { MsalGuard, MsalInterceptor, MsalModule, MsalRedirectComponent } from '@azure/msal-angular';
+import { MsalService, MsalBroadcastService, MsalGuard, MsalInterceptor, MsalModule, MsalRedirectComponent } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
 import { MaterialModule } from './material.module';
@@ -24,6 +26,7 @@ import { MSAL_CONFIG, protectedResources } from './auth-config';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FlexLayoutModule,
     HttpClientModule,
     MaterialModule,
     MsalModule.forRoot(
@@ -53,7 +56,9 @@ import { MSAL_CONFIG, protectedResources } from './auth-config';
       useClass: MsalInterceptor,
       multi: true
     },
-    MsalGuard
+    MsalGuard,
+    MsalService,
+    MsalBroadcastService
   ],
   bootstrap: [
     AppComponent, 
