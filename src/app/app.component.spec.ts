@@ -4,8 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MsalModule } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
 import { AppComponent } from './app.component';
 
 import { MaterialModule } from './material.module';
