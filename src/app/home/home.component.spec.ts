@@ -4,6 +4,7 @@ import { MsalModule } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
 import { MSAL_CONFIG, protectedResources } from '../auth-config';
+import { MaterialModule } from '../material.module';
 
 import { HomeComponent } from './home.component';
 
@@ -14,6 +15,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MaterialModule,
         MsalModule.forRoot(
           new PublicClientApplication(MSAL_CONFIG),
           {
