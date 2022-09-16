@@ -1,5 +1,36 @@
 <div *ngIf="!loginDisplay">
-  <p>Please sign-in to see your profile information.</p>
+  <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="30px grid">
+    <div fxFlex="30%" fxFlex.xs="100%">
+      <mat-card style="text-align: center;">
+        <img mat-card-image src="assets/images/customer-sign-in.jpg" alt="Customer Sign In">
+        <mat-card-content>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat.
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">CUSTOMER SIGN IN</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div fxFlex="30%" fxFlex.xs="100%">
+      <mat-card style="text-align: center;">
+        <img mat-card-image src="assets/images/employee-sign-in.jpg" alt="Employee Sign In">
+        <mat-card-content>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat.
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">EMPLOYEE SIGN IN</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>
 
 <div *ngIf="loginDisplay">
