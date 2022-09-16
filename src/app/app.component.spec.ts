@@ -4,10 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MsalModule } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
+import { AppComponent } from './app.component';
+
 import { MaterialModule } from './material.module';
 import { MSAL_CONFIG, protectedResources } from './auth-config';
-
-import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -34,7 +34,7 @@ describe('AppComponent', () => {
           })
       ],
       declarations: [
-        AppComponent
+        AppComponent,
       ]
     }).compileComponents();
   });
@@ -45,9 +45,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'msal-angular-tutorial'`, () => {
+  it(`should have as title 'Northwind Traders Ltd.'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('msal-angular-tutorial');
+    expect(app.title).toEqual('Northwind Traders Ltd.');
   });
 });

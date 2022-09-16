@@ -5,7 +5,7 @@ import { MatCardModule} from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-const material = [
+const materialModules = [
   MatButtonModule,
   MatCardModule,
   MatTableModule,
@@ -15,10 +15,10 @@ const material = [
 @NgModule({
   declarations: [],
   imports: [
-    material,
+    materialModules
   ],
   exports: [
-    material
+    materialModules
   ]
 })
 export class MaterialModule { }
