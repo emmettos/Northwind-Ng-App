@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MsalModule } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
-import { MaterialModule } from '../material.module';
-import { MSAL_CONFIG, protectedResources } from '../auth-config';
+import { MaterialModule } from '../../material.module';
+import { MSAL_CONFIG, protectedResources } from '../oauth2.config';
 
 import { ProfileComponent } from './profile.component';
 

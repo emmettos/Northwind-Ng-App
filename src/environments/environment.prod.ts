@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  authConfig: {
-    redirectURL: 'https://northwind-ng-app.azurewebsites.net/'
+  msalConfig: {
+    redirectUrl: 'https://northwind-ng-app.azurewebsites.net'
   }
 };

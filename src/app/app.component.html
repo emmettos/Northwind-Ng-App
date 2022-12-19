@@ -3,11 +3,7 @@
 
   <div class="toolbar-spacer"></div>
 
-  <a mat-button [routerLink]="['profile']">Profile</a>
-  <!-- <a mat-button [routerLink]="['webapi']">Web API</a> -->
-
-  <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
-  <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
+  <button mat-raised-button *ngIf="loggedInUser !== null" (click)="logout()">Logout</button>
 </mat-toolbar>
 <div class="container">
   <router-outlet></router-outlet>

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  authConfig: {
-    redirectURL: 'http://localhost:4200'
+  msalConfig: {
+    redirectUrl: 'http://localhost:4200'
   }
 };
 

@@ -1,4 +1,4 @@
-<div *ngIf="!loginDisplay">
+<div *ngIf="loggedInUser === null">
   <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="30px grid">
     <div fxFlex="30%" fxFlex.xs="100%">
       <mat-card style="text-align: center;">
@@ -11,7 +11,7 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary">CUSTOMER SIGN IN</button>
+          <button mat-raised-button color="primary" (click)="customerLogin()">CUSTOMER SIGN IN</button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -26,14 +26,23 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary">EMPLOYEE SIGN IN</button>
+          <button mat-raised-button color="primary" (click)="employeeLogin()">EMPLOYEE SIGN IN</button>
         </mat-card-actions>
       </mat-card>
     </div>
   </div>
 </div>
 
-<div *ngIf="loginDisplay">
-  <p>Login successful!</p>
-  <p>Request your profile information by clicking Profile above.</p>
+<div *ngIf="loggedInUser !== null">
+  <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="30px grid">
+    <div fxFlex="80%" fxFlex.xs="100%">
+      <mat-card style="text-align: center;">
+        <mat-card-actions>
+          <button mat-raised-button color="accent" (click)="getOrders()">Get Orders (Customer)</button>
+          <button mat-raised-button color="secondary" (click)="getSuppliers()">Get Suppliers (Employee)</button>
+          <button mat-raised-button color="secondary" (click)="getProductCategories()">Get Product Categories (Employee)</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>

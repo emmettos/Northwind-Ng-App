@@ -7,7 +7,7 @@ import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { AppComponent } from './app.component';
 
 import { MaterialModule } from './material.module';
-import { MSAL_CONFIG, protectedResources } from './auth-config';
+import { MSAL_CONFIG, protectedResources } from './oauth2.config';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
