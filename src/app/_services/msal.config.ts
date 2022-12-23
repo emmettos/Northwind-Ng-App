@@ -25,9 +25,9 @@ const MSAL_CONFIG: Configuration = {
   },
   system: {
     loggerOptions: {
-      loggerCallback: (logLevel, message, containsPii) => {
-        console.log(message);
-      },
+      // loggerCallback: (logLevel, message, containsPii) => {
+      //   console.log(message);
+      // },
       logLevel: LogLevel.Trace,
       piiLoggingEnabled: true
     }

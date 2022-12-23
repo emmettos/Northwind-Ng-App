@@ -2,9 +2,11 @@ import { Injectable } from "@angular/core";
 
 import { BehaviorSubject, from, Observable } from "rxjs";
 
-import { AccountInfo, AuthenticationResult, Configuration, PublicClientApplication } from '@azure/msal-browser';
+import { AccountInfo, AuthenticationResult, Configuration, LogLevel, PublicClientApplication } from '@azure/msal-browser';
 
 import { MSAL_AD_APP_ROLES_SCOPE, MSAL_AD_CLIENT_ID, MSAL_ADB2C_APP_ROLES_SCOPE, MSAL_ADB2C_CLIENT_ID, MSAL_CONFIG_MAP } from "./msal.config";
+
+import { LogService } from "./log.service";
 
 @Injectable()
 export class MsalService {
@@ -13,7 +15,7 @@ export class MsalService {
   private _loggedInUser: BehaviorSubject<AccountInfo>;
   loggedInUser$: Observable<AccountInfo>;
 
-  constructor() {
+  constructor(private _logService: LogService) {
     this._loggedInUser = new BehaviorSubject<AccountInfo>(null);
     this.loggedInUser$ = this._loggedInUser.asObservable();
   }
@@ -23,7 +25,7 @@ export class MsalService {
 
     this._publicClientApplication.loginPopup()
       .then(result => { 
-        console.log(result);
+        this._logService.debug('Customer login', result);
         this._loggedInUser.next(result.account)
       });
   }
@@ -33,7 +35,7 @@ export class MsalService {
 
     this._publicClientApplication.loginPopup()
       .then(result => { 
-        console.log(result); 
+        this._logService.debug('Employee login', result);
         this._loggedInUser.next(result.account)
       });
   }
@@ -52,6 +54,27 @@ export class MsalService {
   }
 
   private initializeMsal(configuration: Configuration) {
+    configuration.system.loggerOptions.loggerCallback = (logLevel, message, containsPii) => {
+      switch (logLevel) {
+        case LogLevel.Trace:
+          this._logService.log(message);
+          break;
+        case LogLevel.Verbose:
+          this._logService.debug(message);
+          break;
+        case LogLevel.Info:
+          this._logService.info(message);
+          break;
+        case LogLevel.Warning:
+          this._logService.warn(message);
+          break;
+        case LogLevel.Error:
+          this._logService.error(message);
+        default:
+          break;
+      }
+    };
+
     this._publicClientApplication = new PublicClientApplication(configuration);
 
     this._publicClientApplication.initialize();
