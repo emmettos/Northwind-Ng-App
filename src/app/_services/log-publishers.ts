@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 
-import { LogEntry } from './log.service';
+import { LogEntry, LogLevel } from './log.service';
 
 export abstract class LogPublisher {
     location: string;
@@ -11,8 +11,23 @@ export abstract class LogPublisher {
 
 export class LogConsole extends LogPublisher {
   log(entry: LogEntry): Observable<boolean> {
-    console.log(entry.buildLogString());
-      
+    switch (entry.level) {
+      case LogLevel.Trace:
+      case LogLevel.Debug:
+      case LogLevel.Info:
+        console.log(entry.buildLogString());
+        break;
+      case LogLevel.Warn:
+        console.warn(entry.buildLogString());
+        break;
+      case LogLevel.Error:
+      case LogLevel.Fatal:
+        console.error(entry.buildLogString());
+        break;
+      default:
+        break;
+    }
+
     return of(true);
   }
   

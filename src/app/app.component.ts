@@ -7,7 +7,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { MsalService } from './_services/msal.service';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit {
   
   private readonly _destroying$ = new Subject<void>();
 
-  constructor(private msalService: MsalService) {
-  }
+  constructor(private msalService: MsalService) { }
 
   ngOnInit() {
     this.msalService.loggedInUser$.pipe(
@@ -28,19 +26,6 @@ export class AppComponent implements OnInit {
     )
     .subscribe(userAccount => this.loggedInUser = userAccount);
   }
-
-  // webApi() { 
-  //   this.msalService.acquireTokenSilent(request).then(tokenResponse => {
-  //     // Do something with the tokenResponse
-  // }).catch(async (error) => {
-  //     if (error instanceof InteractionRequiredAuthError) {
-  //         // fallback to interaction when silent call fails
-  //         return msalInstance.acquireTokenPopup(request);
-  //     }
-  // }).catch(error => {
-  //     handleError(error);
-  // });
-  // }
 
   logout() { 
     this.msalService.logout();

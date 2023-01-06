@@ -3,6 +3,8 @@
 
   <div class="toolbar-spacer"></div>
 
+  <div *ngIf="loggedInUser !== null">Logged in as: {{ loggedInUser.username }}</div>
+  <div class="toolbar-spacer"></div>
   <button mat-raised-button *ngIf="loggedInUser !== null" (click)="logout()">Logout</button>
 </mat-toolbar>
 <div class="container">
