@@ -18,17 +18,17 @@ export class AppComponent implements OnInit {
   
   private readonly _destroying$ = new Subject<void>();
 
-  constructor(private msalService: MsalService) { }
+  constructor(private _msalService: MsalService) { }
 
   ngOnInit() {
-    this.msalService.loggedInUser$.pipe(
+    this._msalService.loggedInUser$.pipe(
       takeUntil(this._destroying$)
     )
     .subscribe(userAccount => this.loggedInUser = userAccount);
   }
 
   logout() { 
-    this.msalService.logout();
+    this._msalService.logout();
   }
 
   ngOnDestroy(): void {

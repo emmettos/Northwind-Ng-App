@@ -24,6 +24,10 @@ export class LogService {
     this._logPublishers = this._logPublishersService.publishers;
   }
 
+  trace(msg: string, ...optionalParams: any[]) {
+    this.writeToLog(msg, LogLevel.Trace, optionalParams);
+  }
+
   debug(msg: string, ...optionalParams: any[]) {
     this.writeToLog(msg, LogLevel.Debug, optionalParams);
   }
@@ -42,10 +46,6 @@ export class LogService {
 
   fatal(msg: string, ...optionalParams: any[]) {
     this.writeToLog(msg, LogLevel.Fatal, optionalParams);
-  }
-
-  log(msg: string, ...optionalParams: any[]) {
-    this.writeToLog(msg, LogLevel.Trace, optionalParams);
   }
 
   private writeToLog(msg: string, level: LogLevel, params: any[]) {
@@ -78,35 +78,35 @@ export class LogEntry {
   level: LogLevel = LogLevel.Debug;
   extraInfo: any[] = [];
   logWithDate: boolean = true;
-  
+
   buildLogString(): string {
       let logString: string = '';
-      
+
       if (this.logWithDate) {
         logString = new Date() + ' - ';
       }
-      
+
       logString += 'Type: ' + LogLevel[this.level];
       logString += ' - Message: ' + this.message;
-      
+
       if (this.extraInfo.length) {
         logString += ' - Extra Info: ' + this.formatParams(this.extraInfo);
       }
-      
+
       return logString;
   }
-  
+
   private formatParams(params: any[]): string {
       let formattedParams: string = params.join(',');
-      
+
       if (params.some(p => typeof p == 'object')) {
         formattedParams = '';
-        
+
         for (let item of params) {
             formattedParams += JSON.stringify(item) + ',';
         }
       }
-      
+
       return formattedParams;
   }
 }

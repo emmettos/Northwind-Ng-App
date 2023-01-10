@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <a class="title" href="/">{{ title }}</a>
+  <a class="title" routerLink="/">{{ title }}</a>
 
   <div class="toolbar-spacer"></div>
 
@@ -8,5 +8,6 @@
   <button mat-raised-button *ngIf="loggedInUser !== null" (click)="logout()">Logout</button>
 </mat-toolbar>
 <div class="container">
+  <app-alert></app-alert>
   <router-outlet></router-outlet>
 </div>

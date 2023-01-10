@@ -1,0 +1,11 @@
+<div *ngIf="alert && !alertClosed" [ngClass]="{ 'alert': alert, 'alert-danger': alert.type === alertType.Error, 'alert-success': alert.type === alertType.Success }">
+  <div class="close-button">
+    <button mat-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="alert-message">
+    <h4>{{ alert.title }}</h4>
+    <p>{{ alert.text }}</p>
+  </div>
+</div>

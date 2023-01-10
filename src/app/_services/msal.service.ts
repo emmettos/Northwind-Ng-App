@@ -24,7 +24,7 @@ export class MsalService {
     this.initializeMsal(MSAL_CONFIG_MAP.get(MSAL_ADB2C_CLIENT_ID));
 
     this._publicClientApplication.loginPopup()
-      .then(result => { 
+      .then(result => {
         this._logService.debug('Customer login', result);
         this._loggedInUser.next(result.account)
       });
@@ -34,7 +34,7 @@ export class MsalService {
     this.initializeMsal(MSAL_CONFIG_MAP.get(MSAL_AD_CLIENT_ID));
 
     this._publicClientApplication.loginPopup()
-      .then(result => { 
+      .then(result => {
         this._logService.debug('Employee login', result);
         this._loggedInUser.next(result.account)
       });
@@ -57,7 +57,7 @@ export class MsalService {
     configuration.system.loggerOptions.loggerCallback = (logLevel, message, containsPii) => {
       switch (logLevel) {
         case LogLevel.Trace:
-          this._logService.log(message);
+          this._logService.trace(message);
           break;
         case LogLevel.Verbose:
           this._logService.debug(message);

@@ -1,0 +1,19 @@
+.alert {
+  margin-bottom: 20px;
+  color: white;
+}
+.alert-danger {
+  background-color: #f44336;
+}
+.alert-success {
+  background-color: #36f456;
+}
+.close-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.alert-message {
+  padding-bottom: 10px;
+  text-align: center;
+}

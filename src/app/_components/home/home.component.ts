@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { AccountInfo } from '@azure/msal-browser';
@@ -13,7 +13,7 @@ import { MsalService } from '../../_services/msal.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   loggedInUser: AccountInfo;
 
   private readonly _destroying$ = new Subject<void>();
@@ -21,28 +21,33 @@ export class HomeComponent implements OnInit {
   apiData: any[];
   apiColumns: string[];
 
-  constructor(private httpClient: HttpClient, private msalService: MsalService) { }
+  constructor(private _httpClient: HttpClient, private _msalService: MsalService) { }
 
   ngOnInit(): void {
-    this.msalService.loggedInUser$.pipe(
+    this._msalService.loggedInUser$.pipe(
       takeUntil(this._destroying$)
     )
     .subscribe(userAccount => this.loggedInUser = userAccount);
   }
 
+  ngOnDestroy(): void {
+    this._destroying$.next(undefined);
+    this._destroying$.complete();
+  }
+
   customerLogin() {
-    this.msalService.customerLogin();
+    this._msalService.customerLogin();
   }
   
   employeeLogin() {
-    this.msalService.employeeLogin();
+    this._msalService.employeeLogin();
   }
   
   getOrders() {
   }
 
   getSuppliers() {
-    this.httpClient.get<any>('https://localhost:7271/api/supplier')
+    this._httpClient.get<any>('https://localhost:7271/api/supplier')
       .subscribe({
         next: response => { 
           this.apiData = response;
@@ -55,7 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
   getProductCategories() {
-    this.httpClient.get<any>('https://localhost:7271/api/category')
+    this._httpClient.get<any>('https://localhost:7271/api/category')
       .subscribe({
         next: response => { 
           this.apiData = response;
@@ -68,15 +73,10 @@ export class HomeComponent implements OnInit {
   }
 
   addSupplier() {
-    // this.httpClient.get<any>('https://localhost:7271/api/category')
+    // this._httpClient.get<any>('https://localhost:7271/api/category')
     //   .subscribe(response => { 
     //     this.apiData = response;
     //     this.apiColumns = Object.keys(this.apiData[0]);
     //   })
-  }
-
-  ngOnDestroy(): void {
-    this._destroying$.next(undefined);
-    this._destroying$.complete();
   }
 }
