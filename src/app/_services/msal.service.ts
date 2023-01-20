@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, from, Observable } from "rxjs";
+import { BehaviorSubject, from, Observable, tap } from "rxjs";
 
 import { AccountInfo, AuthenticationResult, Configuration, LogLevel, PublicClientApplication } from '@azure/msal-browser';
 
@@ -8,15 +8,27 @@ import { MSAL_AD_APP_ROLES_SCOPE, MSAL_AD_CLIENT_ID, MSAL_ADB2C_APP_ROLES_SCOPE,
 
 import { LogService } from "./log.service";
 
-@Injectable()
+export enum UserType {
+  Customer,
+  Employee,
+  NotDefined
+}
+
+export type AccountInfoWithUserType = AccountInfo & { userType: UserType }
+
+@Injectable({
+  providedIn: 'root'
+})
 export class MsalService {
   private _publicClientApplication: PublicClientApplication;
 
-  private _loggedInUser: BehaviorSubject<AccountInfo>;
-  loggedInUser$: Observable<AccountInfo>;
+  private _loggedInUser: BehaviorSubject<AccountInfoWithUserType>;
+  loggedInUser$: Observable<AccountInfoWithUserType>;
+
+  private _userType: UserType = UserType.NotDefined;
 
   constructor(private _logService: LogService) {
-    this._loggedInUser = new BehaviorSubject<AccountInfo>(null);
+    this._loggedInUser = new BehaviorSubject<AccountInfoWithUserType>(null);
     this.loggedInUser$ = this._loggedInUser.asObservable();
   }
 
@@ -26,7 +38,13 @@ export class MsalService {
     this._publicClientApplication.loginPopup()
       .then(result => {
         this._logService.debug('Customer login', result);
-        this._loggedInUser.next(result.account)
+
+        this._userType = UserType.Customer;
+
+        this._loggedInUser.next({
+          ...result.account,
+          userType: UserType.Customer
+        });
       });
   }
 
@@ -36,16 +54,64 @@ export class MsalService {
     this._publicClientApplication.loginPopup()
       .then(result => {
         this._logService.debug('Employee login', result);
-        this._loggedInUser.next(result.account)
+
+        this._userType = UserType.Employee;
+
+        this._loggedInUser.next({
+          ...result.account,
+          userType: UserType.Employee
+        });
       });
   }
 
   acquireTokenSilent(): Observable<AuthenticationResult> {
-    return from(this._publicClientApplication.acquireTokenSilent({ scopes: [MSAL_AD_APP_ROLES_SCOPE], account: this._loggedInUser.value }));
+    let returnValue: Observable<AuthenticationResult> = null;
+
+    let request: any = null;
+
+    switch (this._userType) {
+      case UserType.Customer:
+        request = { scopes: [MSAL_ADB2C_APP_ROLES_SCOPE], account: this._loggedInUser.value };
+        break;
+      case UserType.Employee:
+        request = { scopes: [MSAL_AD_APP_ROLES_SCOPE], account: this._loggedInUser.value };
+        break;
+      default:
+        break;
+    }
+
+    return from(this._publicClientApplication.acquireTokenSilent(request))
   }
 
   acquireTokenPopup(): Observable<AuthenticationResult> {
-    return from(this._publicClientApplication.loginPopup({ scopes: [MSAL_AD_APP_ROLES_SCOPE] }));
+    let returnValue: Observable<AuthenticationResult> = null;
+
+    let request: any = null;
+
+    switch (this._userType) {
+      case UserType.Customer:
+        request = { scopes: [MSAL_ADB2C_APP_ROLES_SCOPE] };
+
+        returnValue = from(this._publicClientApplication.loginPopup(request))
+                        .pipe(
+                          tap((result: AuthenticationResult) => {
+                            this.broadcastLogin(result, UserType.Customer)
+                          }));
+        break;
+      case UserType.Employee:
+        request = { scopes: [MSAL_AD_APP_ROLES_SCOPE] };
+
+        returnValue = from(this._publicClientApplication.loginPopup(request))
+                        .pipe(
+                          tap((result: AuthenticationResult) => {
+                            this.broadcastLogin(result, UserType.Employee)
+                          }));
+        break;
+      default:
+        break;
+    }
+
+    return returnValue;
   }
 
   logout(): void {
@@ -53,7 +119,7 @@ export class MsalService {
       .then(() => this._loggedInUser.next(null))
   }
 
-  private initializeMsal(configuration: Configuration) {
+  private initializeMsal(configuration: Configuration): void {
     configuration.system.loggerOptions.loggerCallback = (logLevel, message, containsPii) => {
       switch (logLevel) {
         case LogLevel.Trace:
@@ -78,5 +144,23 @@ export class MsalService {
     this._publicClientApplication = new PublicClientApplication(configuration);
 
     this._publicClientApplication.initialize();
+  }
+
+  private broadcastLogin(result: AuthenticationResult, userType: UserType) {
+    switch (userType) {
+      case UserType.Customer:
+        this._logService.debug('Customer login', result);
+        break;
+      case UserType.Employee:
+        this._logService.debug('Employee login', result);
+        break;
+      default:
+        break;
+    }
+
+    this._loggedInUser.next({
+      ...result.account,
+      userType: userType
+    });
   }
 }

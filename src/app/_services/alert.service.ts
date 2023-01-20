@@ -4,7 +4,9 @@ import { Observable, Subject } from 'rxjs';
 
 import { Alert, AlertType } from '../_models/alert.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlertService {
   private _keepAfterNavigationChange = false;
 

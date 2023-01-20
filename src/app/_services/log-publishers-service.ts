@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { LogConsole, LogPublisher } from './log-publishers';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LogPublishersService {
   publishers: LogPublisher[] = [];
 
-  constructor() { 
+  constructor() {
     this.buildPublishers();
   }
 

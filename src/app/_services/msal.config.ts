@@ -14,20 +14,17 @@ import { environment } from '../../environments/environment';
 //   },
 //   authorityDomain: 'eosoftwareltd.b2clogin.com'
 // };
-  
+
 const MSAL_CONFIG: Configuration = {
   auth: {
     clientId: '',
-    redirectUri: environment.msalConfig.redirectUrl 
+    redirectUri: environment.msalConfig.redirectUrl
   },
   cache: {
     cacheLocation: BrowserCacheLocation.LocalStorage,
   },
   system: {
     loggerOptions: {
-      // loggerCallback: (logLevel, message, containsPii) => {
-      //   console.log(message);
-      // },
       logLevel: LogLevel.Trace,
       piiLoggingEnabled: true
     }
@@ -42,7 +39,7 @@ export const MSAL_AD_APP_ROLES_SCOPE = 'api://d0bd9428-6816-4247-9230-611c186b59
 
 export const MSAL_CONFIG_MAP = new Map<string, Configuration>([
   [
-    MSAL_ADB2C_CLIENT_ID, 
+    MSAL_ADB2C_CLIENT_ID,
     {
       ...MSAL_CONFIG,
       auth: {
@@ -54,7 +51,7 @@ export const MSAL_CONFIG_MAP = new Map<string, Configuration>([
     }
   ],
   [
-    MSAL_AD_CLIENT_ID, 
+    MSAL_AD_CLIENT_ID,
     {
       ...MSAL_CONFIG,
       auth: {

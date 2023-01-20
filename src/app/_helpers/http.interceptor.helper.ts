@@ -25,15 +25,15 @@ export class HttpInterceptorHelper implements HttpInterceptor {
 
           return this._msalService.acquireTokenPopup();
         }),
-        switchMap((result: AuthenticationResult) => {
-          if (!result.accessToken) {
-            this._logService.warn('Interceptor - acquireTokenSilent resolved with null access token. Known issue with B2C tenants, invoking interaction to resolve.');
+        // switchMap((result: AuthenticationResult) => {
+        //   if (!result.accessToken) {
+        //     this._logService.warn('Interceptor - acquireTokenSilent resolved with null access token. Known issue with B2C tenants, invoking interaction to resolve.');
 
-            return this._msalService.acquireTokenPopup();
-          }
+        //     return this._msalService.acquireTokenPopup();
+        //   }
 
-          return of(result);
-        }),
+        //   return of(result);
+        // }),
         switchMap((result: AuthenticationResult) => {
           this._logService.trace('Interceptor - setting authorization header', result.accessToken);
 

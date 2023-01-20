@@ -13,7 +13,9 @@ export enum LogLevel {
   Off = 6
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LogService {
   level: LogLevel = LogLevel.Trace;
   logWithDate: boolean = true;
